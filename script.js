@@ -63,7 +63,7 @@ function deleteItem(event) {
   //First, we get the textContent of the list item we clicked
   let itemName = event.target.closest("li").textContent.trim(); // Get only the text content of the list item, excluding the button text
   // console.log(itemName);
-  if (confirm("Do you want to remove this item from your list?\nClick 'Cancel' to update list item selected")) {
+  if (confirm("Do you want to remove this item from your list?")) {
     event.target.closest("li").remove(); //Closest and trim is used because of the nested behaviour of the HTML code structure of a particular list element
     console.log("Removed Item");
     let itemKey;
@@ -78,7 +78,17 @@ function deleteItem(event) {
     localStorage.removeItem(`${itemKey}`);
   }
 }
-document.querySelector("#item-list").addEventListener("click", deleteItem);
+// document.querySelector("#item-list").addEventListener("click", deleteItem);
+document.querySelector('#item-list').addEventListener('click', function(event) {
+  if (event.target.closest('.remove-item')) {
+    deleteItem(event);
+    document.querySelector('#item-input').value = '';
+    document.querySelector('#button').style.backgroundColor = '';
+    document.querySelector('#button').innerHTML = `<i class="fa-solid fa-plus"></i> Add Item`;
+  } else {
+    updateName(event);
+  }
+});
 
 //Clear full list
 function clearAll(event) {
